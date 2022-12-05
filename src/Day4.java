@@ -15,8 +15,7 @@ public class Day4 {
             System.out.println("Error: " + e.getMessage());
         }
 
-        int counter1 = 0;
-        int counter2 = 0;
+        int counter1, counter2;
         for (String row :
                 rows) {
             String firstElf = row.split(",")[0];
