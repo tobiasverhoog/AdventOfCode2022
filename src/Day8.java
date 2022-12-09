@@ -20,14 +20,21 @@ public class Day8 {
         }
 
         int visibleTreeCounter = 0;
+        int scenicHighScore = 0;
 
         for (int i = 1; i < grid.length - 1; i++) {
             for (int j = 1; j < grid[i].length - 1; j++) {
                 if (hasLineOfSightToEdge(i, j)) {
                     visibleTreeCounter++;
                 }
+                int scenicScore = calculateScenicScore(i, j);
+                if (scenicScore > scenicHighScore) {
+                    scenicHighScore = scenicScore;
+                }
             }
         }
+
+        System.out.println("Answer 2: " + scenicHighScore);
 
         int topRow = grid[0].length;
         int bottomRow = topRow;
@@ -36,6 +43,52 @@ public class Day8 {
         int visibleTrees = visibleTreeCounter + topRow + bottomRow + leftRow + rightRow;
         System.out.println("Answer 1: " + visibleTrees);
 
+    }
+
+    private static int calculateScenicScore(int x, int y) {
+
+        return scoreWest(x, y) * scoreEast(x, y) * scoreNorth(x, y) * scoreSouth(x, y);
+    }
+
+    private static int scoreWest(int x, int y) {
+        int score = 0;
+        for (int i = x - 1; i >= 0 ; i--) {
+            score++;
+            if (grid[y][x] <= grid[y][i]) {
+                break;
+            }
+        }
+        return score;
+    }
+    private static int scoreEast(int x, int y) {
+        int score = 0;
+        for (int i = x + 1; i < grid.length; i++) {
+            score++;
+            if (grid[y][x] <= grid[y][i]) {
+                break;
+            }
+        }
+        return score;
+    }
+    private static int scoreNorth(int x, int y) {
+        int score = 0;
+        for (int i = y - 1; i >= 0 ; i--) {
+            score++;
+            if (grid[y][x] <= grid[i][x]) {
+                break;
+            }
+        }
+        return score;
+    }
+    private static int scoreSouth(int x, int y) {
+        int score = 0;
+        for (int i = y + 1; i < grid[y].length; i++) {
+            score++;
+            if (grid[y][x] <= grid[i][x]) {
+                break;
+            }
+        }
+        return score;
     }
 
     private static boolean hasLineOfSightToEdge(int x, int y) {
